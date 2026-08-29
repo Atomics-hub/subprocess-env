@@ -1,0 +1,826 @@
+{
+  "policyVersion": "2026-08-29",
+  "rules": [
+    {
+      "name": "NODE_OPTIONS",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["node"],
+      "category": "runtime-loader",
+      "scope": "all",
+      "reason": "Changes Node startup behavior and can preload executable modules.",
+      "evidence": ["https://nodejs.org/api/cli.html#node_optionsoptions"]
+    },
+    {
+      "name": "NODE_PATH",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["node"],
+      "category": "module-resolution",
+      "scope": "all",
+      "reason": "Adds global module search paths used by Node resolution.",
+      "evidence": [
+        "https://nodejs.org/api/modules.html#loading-from-the-global-folders"
+      ]
+    },
+    {
+      "name": "NODE_EXTRA_CA_CERTS",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["node"],
+      "category": "trust-store",
+      "scope": "overlay",
+      "reason": "Extends Node's trusted certificate authorities from a named file.",
+      "evidence": ["https://nodejs.org/api/cli.html#node_extra_ca_certsfile"]
+    },
+    {
+      "name": "NODE_REDIRECT_WARNINGS",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["node"],
+      "category": "filesystem-output",
+      "scope": "overlay",
+      "reason": "Redirects Node warnings to a named file.",
+      "evidence": ["https://nodejs.org/api/cli.html#node_redirect_warningsfile"]
+    },
+    {
+      "name": "NODE_V8_COVERAGE",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["node"],
+      "category": "filesystem-output",
+      "scope": "overlay",
+      "reason": "Directs Node to write V8 coverage data to a named directory.",
+      "evidence": ["https://nodejs.org/api/cli.html#node_v8_coveragedir"]
+    },
+    {
+      "name": "LD_PRELOAD",
+      "match": "exact",
+      "platforms": ["linux", "freebsd"],
+      "runtimes": ["native-loader"],
+      "category": "runtime-loader",
+      "scope": "all",
+      "reason": "Requests shared objects be loaded before program libraries.",
+      "evidence": ["https://man7.org/linux/man-pages/man8/ld.so.8.html"]
+    },
+    {
+      "name": "LD_AUDIT",
+      "match": "exact",
+      "platforms": ["linux", "freebsd"],
+      "runtimes": ["native-loader"],
+      "category": "runtime-loader",
+      "scope": "all",
+      "reason": "Requests loader audit libraries in a separate namespace.",
+      "evidence": ["https://man7.org/linux/man-pages/man8/ld.so.8.html"]
+    },
+    {
+      "name": "LD_LIBRARY_PATH",
+      "match": "exact",
+      "platforms": ["linux", "freebsd"],
+      "runtimes": ["native-loader"],
+      "category": "library-resolution",
+      "scope": "all",
+      "reason": "Changes the native shared-library search path.",
+      "evidence": ["https://man7.org/linux/man-pages/man8/ld.so.8.html"]
+    },
+    {
+      "name": "LD_PROFILE",
+      "match": "exact",
+      "platforms": ["linux"],
+      "runtimes": ["native-loader"],
+      "category": "filesystem-output",
+      "scope": "overlay",
+      "reason": "Selects a shared object for loader profiling output.",
+      "evidence": ["https://man7.org/linux/man-pages/man8/ld.so.8.html"]
+    },
+    {
+      "name": "DYLD_",
+      "match": "prefix",
+      "platforms": ["darwin"],
+      "runtimes": ["native-loader"],
+      "category": "runtime-loader",
+      "scope": "all",
+      "reason": "The documented DYLD namespace controls dynamic loader paths and inserted libraries.",
+      "evidence": ["https://keith.github.io/xcode-man-pages/dyld.1.html"]
+    },
+    {
+      "name": "GCONV_PATH",
+      "match": "exact",
+      "platforms": ["linux"],
+      "runtimes": ["glibc"],
+      "category": "module-resolution",
+      "scope": "all",
+      "reason": "Changes glibc character-set conversion module lookup.",
+      "evidence": ["https://man7.org/linux/man-pages/man8/iconvconfig.8.html"]
+    },
+    {
+      "name": "GLIBC_TUNABLES",
+      "match": "exact",
+      "platforms": ["linux"],
+      "runtimes": ["glibc"],
+      "category": "runtime-configuration",
+      "scope": "overlay",
+      "reason": "Changes glibc runtime tunables before the program starts.",
+      "evidence": [
+        "https://www.gnu.org/software/libc/manual/html_node/Tunables.html"
+      ]
+    },
+    {
+      "name": "BASH_ENV",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["bash"],
+      "category": "shell-startup",
+      "scope": "all",
+      "reason": "Names a file Bash reads when starting a non-interactive shell.",
+      "evidence": [
+        "https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html"
+      ]
+    },
+    {
+      "name": "ENV",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["posix-shell", "ksh"],
+      "category": "shell-startup",
+      "scope": "all",
+      "reason": "Names a shell startup file in POSIX shells and ksh implementations.",
+      "evidence": [
+        "https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html"
+      ]
+    },
+    {
+      "name": "KSH_ENV",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["ksh"],
+      "category": "shell-startup",
+      "scope": "all",
+      "reason": "Names a file read by ksh during shell initialization.",
+      "evidence": ["https://www.mankier.com/1/ksh"]
+    },
+    {
+      "name": "ZDOTDIR",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["zsh"],
+      "category": "shell-startup",
+      "scope": "all",
+      "reason": "Changes the directory zsh uses to locate startup files.",
+      "evidence": ["https://zsh.sourceforge.io/Doc/Release/Files.html"]
+    },
+    {
+      "name": "BASH_FUNC_",
+      "match": "prefix",
+      "platforms": ["all"],
+      "runtimes": ["bash"],
+      "category": "shell-function-import",
+      "scope": "all",
+      "reason": "Bash uses this namespace for exported shell functions.",
+      "evidence": [
+        "https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html#index-export"
+      ]
+    },
+    {
+      "name": "PYTHONPATH",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["python"],
+      "category": "module-resolution",
+      "scope": "all",
+      "reason": "Adds directories to Python's module search path.",
+      "evidence": [
+        "https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH"
+      ]
+    },
+    {
+      "name": "PYTHONHOME",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["python"],
+      "category": "runtime-location",
+      "scope": "all",
+      "reason": "Changes the location of Python's standard libraries.",
+      "evidence": [
+        "https://docs.python.org/3/using/cmdline.html#envvar-PYTHONHOME"
+      ]
+    },
+    {
+      "name": "PYTHONSTARTUP",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["python"],
+      "category": "runtime-loader",
+      "scope": "all",
+      "reason": "Names a Python file executed before the first interactive prompt.",
+      "evidence": [
+        "https://docs.python.org/3/using/cmdline.html#envvar-PYTHONSTARTUP"
+      ]
+    },
+    {
+      "name": "PYTHONBREAKPOINT",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["python"],
+      "category": "runtime-hook",
+      "scope": "all",
+      "reason": "Selects the callable imported and run by Python breakpoint().",
+      "evidence": [
+        "https://docs.python.org/3/using/cmdline.html#envvar-PYTHONBREAKPOINT"
+      ]
+    },
+    {
+      "name": "PERL5OPT",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["perl"],
+      "category": "runtime-options",
+      "scope": "all",
+      "reason": "Supplies command-line options to every Perl invocation.",
+      "evidence": ["https://perldoc.perl.org/perlrun#PERL5OPT"]
+    },
+    {
+      "name": "PERL5LIB",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["perl"],
+      "category": "module-resolution",
+      "scope": "all",
+      "reason": "Adds directories to Perl's library search path.",
+      "evidence": ["https://perldoc.perl.org/perlrun#PERL5LIB"]
+    },
+    {
+      "name": "RUBYOPT",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["ruby"],
+      "category": "runtime-options",
+      "scope": "all",
+      "reason": "Supplies command-line switches to Ruby invocations.",
+      "evidence": ["https://docs.ruby-lang.org/en/master/ruby/options_md.html"]
+    },
+    {
+      "name": "RUBYLIB",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["ruby"],
+      "category": "module-resolution",
+      "scope": "all",
+      "reason": "Adds directories to Ruby's library load path.",
+      "evidence": ["https://docs.ruby-lang.org/en/master/ruby/options_md.html"]
+    },
+    {
+      "name": "LUA_INIT",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["lua"],
+      "category": "runtime-loader",
+      "scope": "all",
+      "reason": "Lua uses LUA_INIT and versioned LUA_INIT_* names for startup code.",
+      "evidence": ["https://www.lua.org/manual/5.4/manual.html#7"]
+    },
+    {
+      "name": "LUA_INIT_",
+      "match": "prefix",
+      "platforms": ["all"],
+      "runtimes": ["lua"],
+      "category": "runtime-loader",
+      "scope": "all",
+      "reason": "Lua uses a version-suffixed LUA_INIT_* namespace for startup code.",
+      "evidence": ["https://www.lua.org/manual/5.4/manual.html#7"]
+    },
+    {
+      "name": "JAVA_TOOL_OPTIONS",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["jvm"],
+      "category": "runtime-options",
+      "scope": "all",
+      "reason": "Prepends JVM initialization options, including agent loading.",
+      "evidence": [
+        "https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/envvars002.html"
+      ]
+    },
+    {
+      "name": "JDK_JAVA_OPTIONS",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["jvm"],
+      "category": "runtime-options",
+      "scope": "all",
+      "reason": "Prepends options to the Java launcher command line.",
+      "evidence": [
+        "https://docs.oracle.com/en/java/javase/24/docs/specs/man/java.html#using-the-jdk_java_options-launcher-environment-variable"
+      ]
+    },
+    {
+      "name": "_JAVA_OPTIONS",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["jvm"],
+      "category": "runtime-options",
+      "scope": "all",
+      "reason": "Injects JVM options into Java invocations on supported JVMs.",
+      "evidence": [
+        "https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/envvars002.html"
+      ]
+    },
+    {
+      "name": "CLASSPATH",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["jvm"],
+      "category": "module-resolution",
+      "scope": "all",
+      "reason": "Changes the JVM user class search path.",
+      "evidence": [
+        "https://docs.oracle.com/javase/tutorial/essential/environment/paths.html"
+      ]
+    },
+    {
+      "name": "PATH",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["process"],
+      "category": "executable-resolution",
+      "scope": "overlay",
+      "reason": "Controls command lookup when a child is spawned without an absolute executable path.",
+      "evidence": [
+        "https://nodejs.org/api/child_process.html#child_processspawncommand-args-options"
+      ]
+    },
+    {
+      "name": "HOME",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["process", "tools"],
+      "category": "configuration-root",
+      "scope": "overlay",
+      "reason": "Many tools discover executable configuration and credentials beneath the home directory.",
+      "evidence": [
+        "https://specifications.freedesktop.org/basedir-spec/latest/"
+      ]
+    },
+    {
+      "name": "SHELL",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["process", "tools"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Some tools use SHELL to select an executable interpreter.",
+      "evidence": [
+        "https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap08.html"
+      ]
+    },
+    {
+      "name": "COMSPEC",
+      "match": "exact",
+      "platforms": ["win32"],
+      "runtimes": ["windows-shell"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Identifies the Windows command interpreter used by process-launching tools.",
+      "evidence": [
+        "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cmd"
+      ]
+    },
+    {
+      "name": "PATHEXT",
+      "match": "exact",
+      "platforms": ["win32"],
+      "runtimes": ["windows-shell"],
+      "category": "executable-resolution",
+      "scope": "overlay",
+      "reason": "Controls executable extension lookup on Windows.",
+      "evidence": [
+        "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/start"
+      ]
+    },
+    {
+      "name": "STATE_DIRECTORY",
+      "match": "exact",
+      "platforms": ["linux"],
+      "runtimes": ["systemd", "applications"],
+      "category": "configuration-root",
+      "scope": "overlay",
+      "reason": "Can redirect applications to attacker-selected state and configuration locations.",
+      "evidence": [
+        "https://github.com/openclaw/openclaw/security/advisories/GHSA-wc84-j36w-pw4x"
+      ]
+    },
+    {
+      "name": "CLOUDSDK_PYTHON",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["google-cloud-sdk"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Selects the Python executable used by Google Cloud SDK commands.",
+      "evidence": [
+        "https://github.com/openclaw/openclaw/security/advisories/GHSA-fq9j-vw4w-fr6v"
+      ]
+    },
+    {
+      "name": "npm_execpath",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["npm-ecosystem"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Can select the package-manager executable used by npm-aware tooling.",
+      "evidence": [
+        "https://github.com/openclaw/openclaw/security/advisories/GHSA-24vr-rprv-67rf"
+      ]
+    },
+    {
+      "name": "npm_node_execpath",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["npm-ecosystem"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Selects the Node executable exposed to npm lifecycle tooling.",
+      "evidence": [
+        "https://docs.npmjs.com/cli/v11/using-npm/scripts#environment"
+      ]
+    },
+    {
+      "name": "NPM_CONFIG_",
+      "match": "prefix",
+      "platforms": ["all"],
+      "runtimes": ["npm"],
+      "category": "package-manager-configuration",
+      "scope": "overlay",
+      "reason": "npm maps this documented namespace to configuration, including registries, scripts, proxies, and config files.",
+      "evidence": [
+        "https://docs.npmjs.com/cli/v11/using-npm/config#environment-variables"
+      ]
+    },
+    {
+      "name": "npm_config_",
+      "match": "prefix",
+      "platforms": ["all"],
+      "runtimes": ["npm"],
+      "category": "package-manager-configuration",
+      "scope": "overlay",
+      "reason": "npm commonly exports its documented configuration namespace in lowercase.",
+      "evidence": [
+        "https://docs.npmjs.com/cli/v11/using-npm/config#environment-variables"
+      ]
+    },
+    {
+      "name": "GIT_ASKPASS",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Names an external program Git executes to obtain credentials.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITASKPASScode"
+      ]
+    },
+    {
+      "name": "SSH_ASKPASS",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["ssh"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Names an external program SSH executes to obtain credentials.",
+      "evidence": ["https://man.openbsd.org/ssh.1#SSH_ASKPASS"]
+    },
+    {
+      "name": "GIT_SSH_COMMAND",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Selects and supplies arguments to the SSH command Git executes.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITSSHCOMMANDcode"
+      ]
+    },
+    {
+      "name": "GIT_SSH",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Selects the SSH executable Git invokes.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITSSHcode"
+      ]
+    },
+    {
+      "name": "GIT_EXTERNAL_DIFF",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Names an external diff command Git executes.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXTERNALDIFFcode"
+      ]
+    },
+    {
+      "name": "GIT_EDITOR",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Names the editor command Git executes.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITEDITORcode"
+      ]
+    },
+    {
+      "name": "GIT_SEQUENCE_EDITOR",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Names the editor command Git executes for interactive rebases.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITSEQUENCEEDITORcode"
+      ]
+    },
+    {
+      "name": "GIT_PAGER",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Names the pager command Git executes.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITPAGERcode"
+      ]
+    },
+    {
+      "name": "GIT_EXEC_PATH",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "executable-resolution",
+      "scope": "overlay",
+      "reason": "Changes where Git searches for its subprograms.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITEXECPATHcode"
+      ]
+    },
+    {
+      "name": "GIT_CONFIG_GLOBAL",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "configuration-file",
+      "scope": "overlay",
+      "reason": "Selects a replacement global Git configuration file.",
+      "evidence": [
+        "https://git-scm.com/docs/git-config#Documentation/git-config.txt-GITCONFIGGLOBAL"
+      ]
+    },
+    {
+      "name": "GIT_CONFIG_SYSTEM",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "configuration-file",
+      "scope": "overlay",
+      "reason": "Selects a replacement system Git configuration file.",
+      "evidence": [
+        "https://git-scm.com/docs/git-config#Documentation/git-config.txt-GITCONFIGSYSTEM"
+      ]
+    },
+    {
+      "name": "GIT_CONFIG_COUNT",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "configuration-injection",
+      "scope": "overlay",
+      "reason": "Enables environment-provided Git configuration key/value pairs.",
+      "evidence": [
+        "https://git-scm.com/docs/git-config#Documentation/git-config.txt-GITCONFIGCOUNT"
+      ]
+    },
+    {
+      "name": "GIT_CONFIG_KEY_",
+      "match": "prefix",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "configuration-injection",
+      "scope": "overlay",
+      "reason": "Carries keys for environment-provided Git configuration pairs.",
+      "evidence": [
+        "https://git-scm.com/docs/git-config#Documentation/git-config.txt-GITCONFIGCOUNT"
+      ]
+    },
+    {
+      "name": "GIT_CONFIG_VALUE_",
+      "match": "prefix",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "configuration-injection",
+      "scope": "overlay",
+      "reason": "Carries values for environment-provided Git configuration pairs.",
+      "evidence": [
+        "https://git-scm.com/docs/git-config#Documentation/git-config.txt-GITCONFIGCOUNT"
+      ]
+    },
+    {
+      "name": "GIT_DIR",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "repository-selection",
+      "scope": "overlay",
+      "reason": "Selects the repository metadata directory used by Git.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITDIRcode"
+      ]
+    },
+    {
+      "name": "GIT_WORK_TREE",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "repository-selection",
+      "scope": "overlay",
+      "reason": "Selects the working tree used by Git.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITWORKTREEcode"
+      ]
+    },
+    {
+      "name": "GIT_INDEX_FILE",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "repository-selection",
+      "scope": "overlay",
+      "reason": "Selects an alternate Git index file and can redirect repository operations.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITINDEXFILEcode",
+        "https://github.com/anthropics/claude-code/issues/38181"
+      ]
+    },
+    {
+      "name": "GIT_OBJECT_DIRECTORY",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "repository-selection",
+      "scope": "overlay",
+      "reason": "Selects the Git object storage directory.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITOBJECTDIRECTORYcode"
+      ]
+    },
+    {
+      "name": "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["git"],
+      "category": "repository-selection",
+      "scope": "overlay",
+      "reason": "Adds alternate Git object databases.",
+      "evidence": [
+        "https://git-scm.com/docs/git#Documentation/git.txt-codeGITALTERNATEOBJECTDIRECTORIEScode"
+      ]
+    },
+    {
+      "name": "PAGER",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["cli-tools"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Many CLI tools execute the command named by PAGER.",
+      "evidence": [
+        "https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap08.html"
+      ]
+    },
+    {
+      "name": "EDITOR",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["cli-tools"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Many CLI tools execute the command named by EDITOR.",
+      "evidence": [
+        "https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap08.html"
+      ]
+    },
+    {
+      "name": "VISUAL",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["cli-tools"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Many CLI tools execute the command named by VISUAL.",
+      "evidence": [
+        "https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap08.html"
+      ]
+    },
+    {
+      "name": "SSL_CERT_FILE",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["openssl", "tools"],
+      "category": "trust-store",
+      "scope": "overlay",
+      "reason": "Selects a certificate authority file for OpenSSL-based consumers.",
+      "evidence": ["https://docs.openssl.org/3.5/man7/openssl-env/"]
+    },
+    {
+      "name": "SSL_CERT_DIR",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["openssl", "tools"],
+      "category": "trust-store",
+      "scope": "overlay",
+      "reason": "Selects a certificate authority directory for OpenSSL-based consumers.",
+      "evidence": ["https://docs.openssl.org/3.5/man7/openssl-env/"]
+    },
+    {
+      "name": "RUSTC_WRAPPER",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["cargo"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Selects a program Cargo executes instead of rustc.",
+      "evidence": [
+        "https://doc.rust-lang.org/cargo/reference/environment-variables.html"
+      ]
+    },
+    {
+      "name": "RUSTC_WORKSPACE_WRAPPER",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["cargo"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Selects a workspace-specific program Cargo executes around rustc.",
+      "evidence": [
+        "https://doc.rust-lang.org/cargo/reference/environment-variables.html"
+      ]
+    },
+    {
+      "name": "CC",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["build-tools"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Conventionally selects the C compiler executed by build tools.",
+      "evidence": [
+        "https://pubs.opengroup.org/onlinepubs/9799919799/utilities/make.html"
+      ]
+    },
+    {
+      "name": "CXX",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["build-tools"],
+      "category": "executable-selection",
+      "scope": "overlay",
+      "reason": "Conventionally selects the C++ compiler executed by build tools.",
+      "evidence": ["https://cmake.org/cmake/help/latest/envvar/CXX.html"]
+    },
+    {
+      "name": "MAKEFLAGS",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["make"],
+      "category": "build-options",
+      "scope": "overlay",
+      "reason": "Supplies options and variable assignments to make invocations.",
+      "evidence": [
+        "https://www.gnu.org/software/make/manual/html_node/Options_002fRecursion.html"
+      ]
+    },
+    {
+      "name": "CONFIG_SITE",
+      "match": "exact",
+      "platforms": ["all"],
+      "runtimes": ["autoconf"],
+      "category": "build-script",
+      "scope": "overlay",
+      "reason": "Names shell script files loaded by Autoconf configure scripts.",
+      "evidence": [
+        "https://www.gnu.org/software/autoconf/manual/autoconf-2.72/html_node/Site-Defaults.html"
+      ]
+    }
+  ]
+}

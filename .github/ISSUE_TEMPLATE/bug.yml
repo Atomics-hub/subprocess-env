@@ -1,0 +1,20 @@
+name: Bug report
+description: Report incorrect environment compilation behavior.
+body:
+  - type: textarea
+    attributes:
+      label: Reproduction
+      description: Include package version, platform, profile, inputs with values redacted, receipt, and diagnostics.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Sensitive data
+      options:
+        - label: I removed environment values, tokens, paths, and credentials from this report.
+          required: true
